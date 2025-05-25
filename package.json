@@ -1,0 +1,43 @@
+{
+    "name": "@easynotification/core",
+    "version": "1.0.1",
+    "description": "easynotification core",
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "nest build",
+        "prepublishOnly": "npm run build"
+    },
+    "keywords": [
+        "easynotification",
+        "notification",
+        "nestjs",
+        "telegram",
+        "email"
+    ],
+    "author": "amirghdev",
+    "license": "MIT",
+    "dependencies": {
+        "@nestjs/common": ">=8.0.0 <11.0.0",
+        "@nestjs/axios": ">=2.0.0 <5.0.0",
+        "axios": ">=0.21.0 <2.0.0",
+        "nodemailer": ">=6.9.10",
+        "nodemailer-smtp-transport": ">=2.7.4"
+    },
+    "devDependencies": {
+        "typescript": "^5.0.0",
+        "@types/nodemailer": ">=6.4.14"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/easynotification/core"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "files": [
+        "dist",
+        "README.md"
+    ]
+}
