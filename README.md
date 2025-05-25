@@ -1,5 +1,7 @@
 # EasyNotification Core
 
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Feasynotification.app)](https://easynotification.app)
+
 A powerful and flexible notification system built with NestJS that supports multiple notification channels. This is the core module of the EasyNotification project, providing the foundation for sending notifications through various channels.
 
 ## Features
