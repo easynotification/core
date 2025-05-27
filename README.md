@@ -8,6 +8,7 @@ A powerful and flexible notification system built with NestJS that supports mult
 
 - 📱 Telegram notifications
 - 📧 Email notifications
+- 📥 MeliPayamak
 
 ## Installation
 
@@ -24,6 +25,10 @@ Send notifications directly to Telegram chats using bot tokens.
 ### Email
 
 Send email notifications with support for HTML templates.
+
+### MeliPayamak [![Website](https://img.shields.io/badge/MeliPayamak-8A2BE2)](https://www.melipayamak.com/)
+
+Send SMS With MeliPayamak Console Api
 
 ## Setup
 
@@ -46,6 +51,9 @@ import { EasyNotificationModule } from "@easynotification/core";
         host: "host",
         port: 587, // 587 or 465
         secure: false, // false for 587 and true for 465
+      },
+      melipayamakOptions: {
+        console_url: "",
       },
     }),
   ],
@@ -83,6 +91,18 @@ if (response.ok) {
   console.log("Telegram success response", response.result);
 } else {
   console.log("Telegram error response", response.error);
+}
+
+const response = await this.easyNotificationService.sendNotification("MELIPAYAMAK", {
+  to: "phonenumber",
+  bodyId: 10000,
+  args: ["1", "1000"],
+});
+
+if (response.ok) {
+  console.log("Melipayamak success response", response.result);
+} else {
+  console.log("Melipayamak error response", response.error);
 }
 ```
 
