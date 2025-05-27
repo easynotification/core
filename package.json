@@ -1,6 +1,6 @@
 {
     "name": "@easynotification/core",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "description": "easynotification core",
     "main": "dist/index.js",
     "module": "dist/index.js",
