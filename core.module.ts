@@ -4,6 +4,7 @@ import { HttpModule } from "@nestjs/axios";
 import { TelegramService } from "./providers/telegram.service";
 import { EmailService } from "./providers/email.service";
 import { Config, NotificationTokens } from "./types/general";
+import { MelipayamakService } from "providers/melipayamak.service";
 
 @Module({
   imports: [HttpModule],
@@ -27,6 +28,14 @@ export class EasyNotificationModule {
       providers.push({
         provide: NotificationTokens.EMAIL,
         useValue: config.emailOptions,
+      });
+    }
+
+    if (config?.melipayamakOptions) {
+      providers.push(MelipayamakService);
+      providers.push({
+        provide: NotificationTokens.MELIPAYAMAK,
+        useValue: config.melipayamakOptions,
       });
     }
 
