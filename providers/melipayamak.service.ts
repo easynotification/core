@@ -1,9 +1,10 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Provider } from "./provider";
-import { MelipayamakApiResponse, MelipayamakConfig, MelipayamakOptions, MelipayamakResponse } from "types/melipayamak";
-import { NotificationTokens } from "types/general";
+import { MelipayamakApiResponse, MelipayamakConfig, MelipayamakErrorResponse, MelipayamakOptions, MelipayamakResponse, MelipayamakSuccessResponse } from "types/melipayamak";
+import { BasicResponse, NotificationTokens } from "types/general";
 import { HttpService } from "@nestjs/axios";
 import { AxiosError } from "axios";
+import { NotificationOptions } from "../types/general";
 
 @Injectable()
 export class MelipayamakService extends Provider {
@@ -14,10 +15,12 @@ export class MelipayamakService extends Provider {
     this.MELIPAYAMAK_CONFIG = melipayamakConfig;
   }
 
-  public async sendNotification(options: MelipayamakOptions): Promise<MelipayamakResponse> {
+  public async sendNotification(data: NotificationOptions): Promise<BasicResponse<MelipayamakSuccessResponse, MelipayamakErrorResponse>> {
     if (!this.MELIPAYAMAK_CONFIG || !this.MELIPAYAMAK_CONFIG.console_url) {
       throw new Error("Melipayamak config is not defined");
     }
+
+    const options = data.options as MelipayamakOptions;
 
     try {
       const response = await this.httpService.axiosRef.post<MelipayamakApiResponse>(this.MELIPAYAMAK_CONFIG.console_url, {

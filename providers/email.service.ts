@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Provider } from "./provider";
-import { NotificationTokens } from "../types/general";
-import { EmailConfig, EmailOptionsBasic, EmailResponse, EmailSuccessResponse } from "../types/email";
+import { BasicResponse, NotificationOptions, NotificationTokens } from "../types/general";
+import { EmailConfig, EmailErrorResponse, EmailOptionsBasic, EmailSuccessResponse } from "../types/email";
 import * as nodemailer from "nodemailer";
 import { SendMailOptions } from "nodemailer";
 
@@ -24,8 +24,10 @@ export class EmailService extends Provider {
     });
   }
 
-  public async sendNotification(options: EmailOptionsBasic): Promise<EmailResponse> {
+  public async sendNotification(data: NotificationOptions): Promise<BasicResponse<EmailSuccessResponse, EmailErrorResponse>> {
     try {
+      const options = data.options as EmailOptionsBasic;
+
       const mailOptions: SendMailOptions = {
         from: this.EMAIL_CONFIG.from || "noreply@example.com",
         ...options,

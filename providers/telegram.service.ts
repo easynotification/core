@@ -1,27 +1,26 @@
 import { HttpService } from "@nestjs/axios";
 import { Inject, Injectable } from "@nestjs/common";
 import { Provider } from "./provider";
-import { NotificationTokens } from "../types/general";
-import { TelegramConfig, TelegramOptions, TelegramResponse } from "../types/telegram";
+import { BasicResponse, NotificationTokens, NotificationOptions } from "../types/general";
+import { TelegramConfig, TelegramErrorResponse, TelegramOptions, TelegramResponse, TelegramSuccessResponse } from "../types/telegram";
 
 @Injectable()
 export class TelegramService extends Provider {
   private BOT_TOKEN: string;
   private BASE_URL: string;
 
-  constructor(
-    private readonly httpService: HttpService,
-    @Inject(NotificationTokens.TELEGRAM) telegramConfig: TelegramConfig,
-  ) {
+  constructor(private readonly httpService: HttpService, @Inject(NotificationTokens.TELEGRAM) telegramConfig: TelegramConfig) {
     super();
     this.BOT_TOKEN = telegramConfig.token;
     this.BASE_URL = `https://api.telegram.org/bot${this.BOT_TOKEN}`;
   }
 
-  public async sendNotification(options: TelegramOptions): Promise<TelegramResponse> {
+  public async sendNotification(data: NotificationOptions): Promise<BasicResponse<TelegramSuccessResponse, TelegramErrorResponse>> {
     if (!this.BOT_TOKEN) {
       throw new Error("BOT_TOKEN is not set");
     }
+
+    const options = data.options as TelegramOptions;
 
     try {
       const url = `${this.BASE_URL}/sendMessage`;

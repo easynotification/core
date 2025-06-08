@@ -1,28 +1,29 @@
 import { Injectable } from "@nestjs/common";
-import { EmailOptionsBasic, EmailOptions, EmailResponse } from "./types/email";
-import { TelegramOptions, TelegramResponse } from "./types/telegram";
+import { EmailOptions, EmailSuccessResponse, EmailErrorResponse } from "./types/email";
+import { TelegramErrorResponse, TelegramOptions, TelegramSuccessResponse } from "./types/telegram";
 import { TelegramService } from "./providers/telegram.service";
 import { EmailService } from "./providers/email.service";
-import { MelipayamakOptions, MelipayamakResponse } from "./types/melipayamak";
+import { MelipayamakErrorResponse, MelipayamakOptions, MelipayamakSuccessResponse } from "./types/melipayamak";
 import { MelipayamakService } from "./providers/melipayamak.service";
+import { BasicResponse, ErrorResponse, NotificationOptions, SuccessResponse } from "./types/general";
 
 @Injectable()
 export class EasyNotificationService {
   constructor(private readonly telegramService: TelegramService, private readonly emailService: EmailService, private readonly melipayamakService: MelipayamakService) {}
 
-  public async sendNotification(type: "MELIPAYAMAK", options: MelipayamakOptions): Promise<MelipayamakResponse>;
-  public async sendNotification(type: "EMAIL", options: EmailOptions): Promise<EmailResponse>;
-  public async sendNotification(type: "TELEGRAM", options: TelegramOptions): Promise<TelegramResponse>;
-  public async sendNotification(type: never, options: never): Promise<EmailResponse | TelegramResponse | MelipayamakResponse> {
-    switch (type) {
+  public sendNotification(request: { type: "MELIPAYAMAK"; options: MelipayamakOptions }): Promise<BasicResponse<MelipayamakSuccessResponse, MelipayamakErrorResponse>>;
+  public sendNotification(request: { type: "EMAIL"; options: EmailOptions }): Promise<BasicResponse<EmailSuccessResponse, EmailErrorResponse>>;
+  public sendNotification(request: { type: "TELEGRAM"; options: TelegramOptions }): Promise<BasicResponse<TelegramSuccessResponse, TelegramErrorResponse>>;
+  public async sendNotification(request: NotificationOptions): Promise<BasicResponse<SuccessResponse, ErrorResponse>> {
+    switch (request.type) {
       case "EMAIL":
-        return this.emailService.sendNotification(options as EmailOptionsBasic);
+        return this.emailService.sendNotification(request);
       case "TELEGRAM":
-        return this.telegramService.sendNotification(options as TelegramOptions);
+        return this.telegramService.sendNotification(request);
       case "MELIPAYAMAK":
-        return this.melipayamakService.sendNotification(options as MelipayamakOptions);
+        return this.melipayamakService.sendNotification(request);
       default:
-        throw new Error(`Unsupported notification type: ${type}`);
+        throw new Error(`Unsupported notification type: ${request.type}`);
     }
   }
 }

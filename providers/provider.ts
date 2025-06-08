@@ -1,8 +1,5 @@
-import { MelipayamakOptions } from "types/melipayamak";
-import { MelipayamakResponse } from "types/melipayamak";
-import { EmailOptionsBasic, EmailResponse } from "../types/email";
-import { TelegramOptions, TelegramResponse } from "../types/telegram";
+import { BasicResponse, ErrorResponse, SuccessResponse, NotificationOptions } from "../types/general";
 
 export abstract class Provider {
-  abstract sendNotification(options: TelegramOptions | EmailOptionsBasic | MelipayamakOptions): Promise<TelegramResponse | EmailResponse | MelipayamakResponse>;
+  abstract sendNotification(options: NotificationOptions): Promise<BasicResponse<SuccessResponse, ErrorResponse>>;
 }

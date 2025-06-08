@@ -1,10 +1,19 @@
-import { EmailConfig, EmailOptionsBasic } from "./email";
-import { MelipayamakConfig, MelipayamakOptions } from "./melipayamak";
-import { TelegramConfig, TelegramOptions } from "./telegram";
-
-export type NotificationOptions = EmailOptionsBasic | TelegramOptions | MelipayamakOptions;
+import { EmailConfig, EmailErrorResponse, EmailOptionsBasic, EmailSuccessResponse } from "./email";
+import { MelipayamakConfig, MelipayamakErrorResponse, MelipayamakOptions, MelipayamakSuccessResponse } from "./melipayamak";
+import { TelegramConfig, TelegramErrorResponse, TelegramOptions, TelegramSuccessResponse } from "./telegram";
 
 export type NotificationType = "EMAIL" | "TELEGRAM" | "MELIPAYAMAK";
+
+export type NotificationOptions = {
+  type: NotificationType;
+  options: EmailOptionsBasic | TelegramOptions | MelipayamakOptions;
+};
+
+export interface BasicResponse<T, E> {
+  ok: boolean;
+  result?: T;
+  error?: E;
+}
 
 export interface Config {
   isGlobal?: boolean;
@@ -18,3 +27,7 @@ export enum NotificationTokens {
   EMAIL = "INJECT_EMAIL_TOKEN",
   MELIPAYAMAK = "INJECT_MELIPAYAMAK_TOKEN",
 }
+
+export type SuccessResponse = TelegramSuccessResponse | EmailSuccessResponse | MelipayamakSuccessResponse;
+
+export type ErrorResponse = TelegramErrorResponse | EmailErrorResponse | MelipayamakErrorResponse;

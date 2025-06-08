@@ -15,8 +15,8 @@ export interface MelipayamakApiResponse {
 
 export interface MelipayamakResponse {
   ok: boolean;
-  result: MelipayamakSuccessResponse;
-  error: MelipayamakErrorResponse;
+  result?: MelipayamakSuccessResponse;
+  error?: MelipayamakErrorResponse;
 }
 
 export interface MelipayamakSuccessResponse {
